@@ -19,7 +19,11 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
-        authService.register(registerRequest);
-        return new ResponseEntity<>("Successful registration", HttpStatus.OK);
+        try {
+            authService.register(registerRequest);
+            return new ResponseEntity<>("Successful registration", HttpStatus.OK);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
